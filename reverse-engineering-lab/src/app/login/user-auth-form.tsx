@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -38,15 +39,31 @@ const Icons = {
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [email, setEmail] = React.useState<string>("");
+  const router = useRouter();
+
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
     setIsLoading(true)
-
+    let result = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            body: JSON.stringify({ email:email  }),
+        },
+        })
+    const body = await result.json()
+    console.log(body)
     setTimeout(() => {
+      if (body.message == "ok") {
+        router.push("/dashboard")
+      } else {
+        alert("Incorrect email")
+      }
       setIsLoading(false)
-    }, 3000)
+    }, 1000)
   }
 
   return (
@@ -65,6 +82,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
+              onChange={(event) => setEmail(event.target.value)}
             />
           </div>
           <Button disabled={isLoading}>
