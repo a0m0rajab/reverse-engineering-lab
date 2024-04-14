@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link"
 import {
   Activity,
@@ -43,8 +44,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useEffect, useState } from "react"
 
 export default function Dashboard() {
+
+  // use effect and get stats
+  const [stats, setStats] = useState<any>({})
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((response) => response.json())
+      .then((data) => {
+        setStats(data.stats)
+        console.log(data.stats)
+      })
+  }, [])
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -176,7 +190,7 @@ export default function Dashboard() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$45,231.89</div>
+              <div className="text-2xl font-bold">${stats.revenue}</div>
               <p className="text-xs text-muted-foreground">
                 +20.1% from last month
               </p>
@@ -190,7 +204,7 @@ export default function Dashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+2350</div>
+              <div className="text-2xl font-bold">+{stats.subs}</div>
               <p className="text-xs text-muted-foreground">
                 +180.1% from last month
               </p>
@@ -202,7 +216,7 @@ export default function Dashboard() {
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
+              <div className="text-2xl font-bold">+{stats.sales}</div>
               <p className="text-xs text-muted-foreground">
                 +19% from last month
               </p>
@@ -214,7 +228,7 @@ export default function Dashboard() {
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+573</div>
+              <div className="text-2xl font-bold">+{stats.active}</div>
               <p className="text-xs text-muted-foreground">
                 +201 since last hour
               </p>
