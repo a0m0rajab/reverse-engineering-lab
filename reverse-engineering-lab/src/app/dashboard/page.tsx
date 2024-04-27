@@ -45,8 +45,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function Dashboard() {
+  const router = useRouter();
 
   // use effect and get stats
   const [stats, setStats] = useState<any>({})
@@ -187,7 +189,10 @@ export default function Dashboard() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={ () => {
+                fetch("api/logout");
+                router.push("/login");
+              }}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
