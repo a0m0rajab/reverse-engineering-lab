@@ -55,7 +55,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         },
         })
     const body = await result.json()
-    console.log(body)
     setTimeout(() => {
       if (body.message == "ok") {
         router.push("/dashboard")

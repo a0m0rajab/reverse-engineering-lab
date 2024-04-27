@@ -2,10 +2,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 function isPublic(path: string) {
-    // console.log(path)
     let publicUrls = ['/login', "/"];
     let isPublic = publicUrls.some((p) =>{
-        console.log("isPublic ", p, path, path === p);
         return path === p;
     });
     return isPublic;
@@ -15,9 +13,6 @@ export function middleware(request: NextRequest) {
   // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
   // Getting cookies from the request using the `RequestCookies` API
   let isLoggedIn = request.cookies.get('loggedIn')?.value || false;
-//   console.log('isLoggedIn:', isLoggedIn)
-  console.log('request.url:', request.nextUrl.pathname)
-  console.log(isPublic(request.nextUrl.pathname));
   if (isPublic(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
