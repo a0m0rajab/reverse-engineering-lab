@@ -1,5 +1,14 @@
 import { NextRequest } from "next/server";
+
 export async function GET(request: NextRequest) {
+    const isLoggedIn = request.cookies.get('loggedIn')?.value || false;
+    if(isLoggedIn !== 'true') {
+        return new Response(JSON.stringify({ message: 'unauthorized' }), {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+    }
     const data = [
         {name: 'Joe', surname:"Jack", sales: 2400, email: "joe@randomemail.com"},
         {name: 'John', surname:"Doe", sales: 4560, email: "john@randomemail.com"},
