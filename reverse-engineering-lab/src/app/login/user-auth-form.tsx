@@ -40,7 +40,7 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [email, setEmail] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>("admin@email.com");
   const router = useRouter();
 
 
@@ -75,7 +75,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </Label>
             <Input
               id="email"
-              placeholder="name@example.com"
+              value={email}
+              placeholder={email}
               type="email"
               autoCapitalize="none"
               autoComplete="email"
